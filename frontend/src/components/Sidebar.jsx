@@ -1,3 +1,4 @@
+
 import {
   NavLink,
   useNavigate
@@ -21,14 +22,12 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   const usuario = JSON.parse(
-    localStorage.getItem("usuario") ||
-      "{}"
+    localStorage.getItem("usuario") || "{}"
   );
 
   const cerrarSesion = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("usuario");
-
     navigate("/login");
   };
 
@@ -43,8 +42,10 @@ const Sidebar = () => {
 
   const esAdminCentral =
     esPrincipal &&
-    usuario.nivel_permiso ===
-      "aprobador_admin";
+    [
+      "administrador",
+      "aprobador_admin"
+    ].includes(usuario.nivel_permiso);
 
   return (
     <aside className="sidebar">
@@ -56,21 +57,17 @@ const Sidebar = () => {
       <div className="sidebar-user">
         <div className="sidebar-user-avatar">
           {usuario.nombre
-            ? usuario.nombre
-                .charAt(0)
-                .toUpperCase()
+            ? usuario.nombre.charAt(0).toUpperCase()
             : "U"}
         </div>
 
         <div>
           <strong>
-            {usuario.nombre ||
-              "Usuario"}
+            {usuario.nombre || "Usuario"}
           </strong>
 
           <small>
-            {usuario.ubicacion_nombre ||
-              "Sin ubicación"}
+            {usuario.ubicacion_nombre || "Sin ubicación"}
           </small>
         </div>
       </div>
